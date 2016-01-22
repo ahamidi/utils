@@ -10,7 +10,7 @@ import (
 )
 
 // JSON response convenience function
-func jsonResponse(w http.ResponseWriter, data interface{}, err error) {
+func jsonResponse(w http.ResponseWriter, status int, data interface{}, err error) {
 	w.Header().Add("Content-Type", "application/json")
 
 	// Error Response - Return early
@@ -31,6 +31,7 @@ func jsonResponse(w http.ResponseWriter, data interface{}, err error) {
 		w.WriteHeader(500)
 		w.Write(jErr)
 	}
+	w.WriteHeader(status)
 	w.Write(jRes)
 }
 
