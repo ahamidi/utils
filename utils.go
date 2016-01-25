@@ -10,7 +10,7 @@ import (
 )
 
 // JSON response convenience function
-func jsonResponse(w http.ResponseWriter, status int, data interface{}, err error) {
+func JSONResponse(w http.ResponseWriter, status int, data interface{}, err error) {
 	w.Header().Add("Content-Type", "application/json")
 
 	// Error Response - Return early
@@ -36,14 +36,14 @@ func jsonResponse(w http.ResponseWriter, status int, data interface{}, err error
 }
 
 // Nests map (for adding envelope)
-func envelope(d interface{}, envelope string) map[string]interface{} {
+func Envelope(d interface{}, envelope string) map[string]interface{} {
 	return map[string]interface{}{
 		envelope: d,
 	}
 }
 
 // Unpacks map (opposite process of envelope)
-func unvelope(d []byte, envelope string) ([]byte, error) {
+func Unvelope(d []byte, envelope string) ([]byte, error) {
 	var raw map[string]interface{}
 
 	// Need to use a custom JSON decoder in order to handle large ID
@@ -57,7 +57,7 @@ func unvelope(d []byte, envelope string) ([]byte, error) {
 	return json.Marshal(raw[envelope])
 }
 
-func enableProfiling(r *mux.Router) {
+func EnableProfiling(r *mux.Router) {
 	r.HandleFunc("/debug/pprof", pprof.Index)
 	r.HandleFunc("/debug/pprof/profile", pprof.Profile)
 	r.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
